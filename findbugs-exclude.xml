@@ -1,0 +1,29 @@
+<FindBugsFilter>
+    <Match>
+        <Bug pattern="CE_CLASS_ENVY"/>
+    </Match>
+    <Match>
+        <Bug pattern="EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS"/>
+    </Match>
+    <Match>
+        <Bug pattern="FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY"/>
+    </Match>
+    <Match>
+        <Bug pattern="OCP_OVERLY_CONCRETE_PARAMETER"/>
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Bug pattern="PCAIL_POSSIBLE_CONSTANT_ALLOCATION_IN_LOOP"/>
+    </Match>
+    <Match>
+        <Bug pattern="THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION"/>
+    </Match>
+    <Match>
+        <Source name="~.*?MapperImpl.*" />
+    </Match>
+</FindBugsFilter>

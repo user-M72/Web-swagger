@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: Digital active
+
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/company
+    username: postgres
+    password: 01032002ama
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # PAY ATTENTION, BE CAUTIOUS!!!
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+  swagger-ui:
+    path:/swagger-ui.html
+
+application:
+  rca:
+    private-key: ${PRIVATE_KEY_PATH:classpath:keys/private_key.pem}
+    public-key: ${PUBLIC_KEY_PATH:classpath:keys/public_key.pem}

@@ -1,0 +1,34 @@
+FROM eclipse-temurin:21-jre
+ARG version=undefined
+ENV VERSION=${version} \
+    JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF-8 \
+    -Djava.awt.headless=true \
+    -Dsun.net.inetaddr.ttl=10 \
+    -Djava.net.preferIPv4Stack=true \
+    -XX:+AlwaysActAsServerClassMachine \
+    -XX:+PerfDisableSharedMem \
+    -XX:+UseStringDeduplication \
+    -XX:+UseNUMA \
+    -XX:+AlwaysPreTouch \
+    -Dio.netty.leakDetectionLevel=simple \
+    -XX:+ExplicitGCInvokesConcurrent \
+    -XX:+ExitOnOutOfMemoryError \
+    -Djava.security.egd=file:/dev/./urandom \
+    -Xmx8g"
+
+LABEL version=${VERSION}
+
+RUN groupadd --system appgroup && \
+    useradd --system --create-home --gid appgroup appuser
+
+WORKDIR /app
+COPY build/libs/digital-active-$VERSION.jar /app/digital-active.jar
+RUN chown -R appuser:appgroup /app && chmod 700 /app/digital-active.jar
+
+
+# Switch to the non-root user
+USER appuser
+
+EXPOSE 8080
+
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /app/digital-active.jar" ]
