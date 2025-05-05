@@ -26,3 +26,10 @@ application:
   rca:
     private-key: ${PRIVATE_KEY_PATH:classpath:keys/private_key.pem}
     public-key: ${PUBLIC_KEY_PATH:classpath:keys/public_key.pem}
+
+telegrambots:
+  botToken: 7356408169:AAEiZmReGJ14xZXS5E3GCG-welqgiPv-_U8
+  botUsername: WebsiteNumber1Bot
+#
+#  botToken: ${BOT_NAME_PATH:classpath:keys/bot_name}
+#  botUsername: ${BOT_TOKEN_PATH:classpath:keys/bot_token}

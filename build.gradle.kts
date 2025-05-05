@@ -50,7 +50,8 @@ dependencies {
     compileOnly("org.immutables:builder")
     compileOnly("org.immutables:value-annotations")
 
-
+    // https://mvnrepository.com/artifact/org.telegram/telegrambots-spring-boot-starter
+    implementation("org.telegram:telegrambots-spring-boot-starter:6.9.7.1")
 }
 
 dependencyManagement{

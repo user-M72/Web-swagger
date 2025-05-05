@@ -11,23 +11,14 @@ import uz.company.digitalactive.entity.DigitalAsset;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DigitalAssetMapper {
 
-  @Mapping(target = "id", ignore = true)
-  @Mapping(target = "typeName", ignore = true)
-  @Mapping(target = "ownerName", ignore = true)
-  @Mapping(target = "projectShortName", ignore = true)
+  @Mapping(target = "typeName", source = "type.name")
+  @Mapping(target = "ownerName", source = "owner")
+  @Mapping(target = "status", source = "status")
   AssetResponseDto toDto(DigitalAsset digitalAsset);
 
-  @Mapping(target = "name", ignore = true)
-  @Mapping(target = "type", ignore = true)
-  @Mapping(target = "description", ignore = true)
-  @Mapping(target = "owner", ignore = true)
-  @Mapping(target = "issuer", ignore = true)
-  @Mapping(target = "issuedDate", ignore = true)
-  @Mapping(target = "status", ignore = true)
-  @Mapping(target = "projects", ignore = true)
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "status", defaultValue = "PENDING")
   DigitalAsset toEntity(AssetRequestDto assetRequestDto);
-
 
   void updateFromDto(AssetRequestDto assetRequestDto, @MappingTarget DigitalAsset digitalAsset);
 }

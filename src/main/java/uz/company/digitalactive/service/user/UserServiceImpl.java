@@ -23,7 +23,6 @@ public class UserServiceImpl implements UserService {
   @Autowired private RoleService roleService;
   @Autowired private PasswordEncoder passwordEncoder;
 
-
   @Override
   public List<UserResponseDto> get() {
     return userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());

@@ -28,6 +28,7 @@ public class DigitalAsset extends BaseDomain<UUID> {
 
   private LocalDateTime expirationDate;
 
+  @Enumerated(EnumType.STRING)
   private AssetStatus status;
 
   @ManyToMany

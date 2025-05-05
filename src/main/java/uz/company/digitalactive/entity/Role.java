@@ -15,6 +15,7 @@ public class Role extends BaseDomain<UUID> implements GrantedAuthority {
 
   @Column(unique = true)
   private String name;
+
   private String description;
 
   @Override
