@@ -5,6 +5,7 @@ import java.util.UUID;
 import uz.company.digitalactive.dto.request.user.UserRequestDto;
 import uz.company.digitalactive.dto.response.user.UserResponseDto;
 import uz.company.digitalactive.entity.Role;
+import uz.company.digitalactive.entity.User;
 
 public interface UserService {
   List<UserResponseDto> get();
@@ -18,4 +19,6 @@ public interface UserService {
   void delete(UUID id);
 
   List<UserResponseDto> getAllByRole(Role admin);
+
+  User findByPhoneNumber(String phoneNumber);
 }

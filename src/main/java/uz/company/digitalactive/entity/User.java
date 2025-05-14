@@ -20,6 +20,7 @@ public class User extends BaseDomain<UUID> implements UserDetails {
 
   @Column(unique = true)
   private String email;
+  private String phoneNumber;
 
   private String password;
 

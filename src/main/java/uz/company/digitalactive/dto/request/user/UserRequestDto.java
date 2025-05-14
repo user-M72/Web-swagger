@@ -6,4 +6,7 @@ import java.util.UUID;
 public record UserRequestDto(
     String firstname,
     String lastname,
-    String email, String password, List<UUID> roleIds) {}
+    String email,
+    String password,
+    String phoneNumber,
+    List<UUID> roleIds) {}

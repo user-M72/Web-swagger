@@ -1,37 +1,71 @@
 package uz.company.digitalactive.bot;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Contact;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import uz.company.digitalactive.entity.User;
+import uz.company.digitalactive.service.user.UserService;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
 
     @Autowired
-    private UserMessageRepository userMessageRepository;
+    private UserService userService;
 
-    public String handleMessage(String chatId, String userMessage) {
-        if (!userMessage.startsWith("/")) {
-            UserMessage message = new UserMessage();
-            message.setChatId(chatId);
-            message.setText(userMessage);
-            message.setTimestamp(LocalDateTime.now());
-            userMessageRepository.save(message);
+    @Autowired
+    private MessageRepository messageRepository;
+
+    public void handleMessage(String text, SendMessage message) {
+        if (text.equalsIgnoreCase("/start")) {
+            message.setText("Hello! User, I'm your Telegram bot! Please, click share contact button!");
+            message.setReplyMarkup(createKeyboardRequestPhone());
+        } else if(text.equalsIgnoreCase("/help")) {
+            message.setText("Bro I'm really sorry, but I can't help you!");
+        } else {
+            message.setText("Please, type /help");
+        }
+    }
+
+    public void handleContact(String chatId, Contact contact, SendMessage message) {
+        String phoneNumber = contact.getPhoneNumber();
+        create(chatId, phoneNumber);
+
+        message.setText("You have been added! Thank you for sharing your phone number.");
+        message.setReplyMarkup(new ReplyKeyboardRemove(true));
+    }
+    public void create(String chatId, String phoneNumber) {
+        User user = userService.findByPhoneNumber(phoneNumber);
+        Message message = new Message();
+        message.setUser(user);
+        message.setChatId(chatId);
+        message.setPhoneNumber(phoneNumber);
+        try {
+            messageRepository.save(message);
+        } catch (DataIntegrityViolationException ignored) {
+
         }
 
-        if(userMessage.equalsIgnoreCase("/start")){
-            return "Hello! I'm your Telegram bot!";
-        } else if (userMessage.equalsIgnoreCase("/history")) {
-            List<UserMessage> messages = userMessageRepository.findByChatId(chatId);
-            return messages.stream()
-                    .map(message -> message.getText() + "->" + message.getTimestamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                    .collect(Collectors.joining("\n"));
 
-        }
-        return null;
+    }
+
+    private ReplyKeyboardMarkup createKeyboardRequestPhone() {
+        KeyboardButton button = new KeyboardButton();
+        button.setText("Send phone number");
+        button.setRequestContact(true);
+
+        KeyboardRow row = new KeyboardRow();
+        row.add(button);
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        keyboardMarkup.setKeyboard(List.of(row));
+
+        return keyboardMarkup;
     }
 }

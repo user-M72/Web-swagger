@@ -11,6 +11,7 @@ import uz.company.digitalactive.dto.request.user.UserRequestDto;
 import uz.company.digitalactive.dto.response.user.UserResponseDto;
 import uz.company.digitalactive.entity.Role;
 import uz.company.digitalactive.entity.User;
+import uz.company.digitalactive.exception.NotFoundException;
 import uz.company.digitalactive.mapper.UserMapper;
 import uz.company.digitalactive.repository.UserRepository;
 import uz.company.digitalactive.service.role.RoleService;
@@ -59,5 +60,11 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<UserResponseDto> getAllByRole(Role admin) {
     return List.of();
+  }
+
+  @Override
+  public User findByPhoneNumber(String phoneNumber) {
+    return userRepository.findByPhoneNumber(phoneNumber)
+            .orElseThrow(()->new NotFoundException("User not found by phone number: " + phoneNumber));
   }
 }

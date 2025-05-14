@@ -13,6 +13,7 @@ public interface AuthMapper {
   @Mapping(target = "enabled", ignore = true)
   @Mapping(target = "roles", ignore = true)
   @Mapping(target = "authorities", ignore = true)
+  @Mapping(target = "phoneNumber", ignore = true)
   User toDto(RegisterRequestDto registerRequestDto);
 
   @Mapping(target = "token", ignore = true)

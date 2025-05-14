@@ -6,4 +6,4 @@ import uz.company.digitalactive.entity.Role;
 
 public record UserResponseDto(
     UUID id,
-    String firstname, String lastname, String email, Set<Role> roles) {}
+    String firstname, String lastname, String email, String phoneNumber,Set<Role> roles) {}
