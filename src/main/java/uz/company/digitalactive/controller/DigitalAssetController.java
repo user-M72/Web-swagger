@@ -3,12 +3,14 @@ package uz.company.digitalactive.controller;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.company.digitalactive.dto.AssetPatchDto;
 import uz.company.digitalactive.dto.request.asset.AssetRequestDto;
 import uz.company.digitalactive.dto.response.asset.AssetResponseDto;
+import uz.company.digitalactive.entity.enums.AssetSort;
 import uz.company.digitalactive.service.digitalAsset.DigitalAssetService;
 
 @RestController
@@ -50,5 +52,17 @@ public class DigitalAssetController {
   public ResponseEntity<Void> delete(@PathVariable("assetId") UUID id) {
     digitalAssetService.delete(id);
     return ResponseEntity.noContent().build();
+  }
+  @GetMapping("/paginated")
+  public ResponseEntity<Page<AssetResponseDto>> getAllPaginated(
+          @RequestParam(defaultValue = "0") int page,
+          @RequestParam(defaultValue = "5") int size,
+          @RequestParam() AssetSort sortBy,
+          @RequestParam(defaultValue = "asc") String direction
+//          @RequestParam String search
+
+  ){
+    Page<AssetResponseDto> assets = digitalAssetService.getAllPaginated(page, size, sortBy, direction);
+    return  ResponseEntity.ok(assets);
   }
 }

@@ -3,6 +3,11 @@ package uz.company.digitalactive.service.digitalAsset;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.company.digitalactive.dto.AssetPatchDto;
 import uz.company.digitalactive.dto.request.asset.AssetRequestDto;
@@ -10,6 +15,7 @@ import uz.company.digitalactive.dto.response.asset.AssetResponseDto;
 import uz.company.digitalactive.entity.DigitalAsset;
 import uz.company.digitalactive.entity.Project;
 import uz.company.digitalactive.entity.Type;
+import uz.company.digitalactive.entity.enums.AssetSort;
 import uz.company.digitalactive.mapper.DigitalAssetMapper;
 import uz.company.digitalactive.repository.DigitalAssetRepository;
 import uz.company.digitalactive.repository.ProjectRepository;
@@ -104,4 +110,32 @@ public class DigitalAssetServiceImpl implements DigitalAssetService {
   public void delete(UUID id) {
     digitalAssetRepository.deleteById(id);
   }
+
+
+    @Override
+    public Page<AssetResponseDto> getAllPaginated(int page, int size, AssetSort sortBy, String direction) {
+
+      List<String> allowedSortField = List.of("name","description","owner","issuer","issuedDate", "expirationDate", "status");
+
+      String sortField = sortBy.getField();
+        if(!allowedSortField.contains(sortField)){
+            throw new RuntimeException("Not found: " + sortBy);
+        }
+
+        Sort sort = direction.equalsIgnoreCase("asc")
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<DigitalAsset> assetPage = digitalAssetRepository.findAll(pageable);
+
+        return assetPage.map(digitalAssetMapper::toDto);
+    }
+
+
+    public Page<DigitalAsset> getAsset(int page, int size){
+    Pageable pageable = PageRequest.of(page, size);
+    return digitalAssetRepository.findAll(pageable);
+  }
+
 }
