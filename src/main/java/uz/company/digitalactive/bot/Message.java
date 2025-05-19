@@ -1,5 +1,6 @@
 package uz.company.digitalactive.bot;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
@@ -19,6 +20,8 @@ public class Message extends BaseDomain<UUID> {
     private User user;
 
     private String chatId;
+
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
     //private LocalDateTime timestamp;
 }

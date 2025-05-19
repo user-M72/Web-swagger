@@ -7,12 +7,14 @@ import org.mapstruct.ReportingPolicy;
 import uz.company.digitalactive.dto.request.asset.AssetRequestDto;
 import uz.company.digitalactive.dto.response.asset.AssetResponseDto;
 import uz.company.digitalactive.entity.DigitalAsset;
+import uz.company.digitalactive.entity.User;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DigitalAssetMapper {
 
+  @Mapping(target = "AssetName", source = "name")
   @Mapping(target = "typeName", source = "type.name")
-  @Mapping(target = "ownerName", source = "owner")
+  @Mapping(target = "projectShortName", expression = "java(getFirstProjectShortName(digitalAsset))")
   @Mapping(target = "status", source = "status")
   AssetResponseDto toDto(DigitalAsset digitalAsset);
 
@@ -21,4 +23,12 @@ public interface DigitalAssetMapper {
   DigitalAsset toEntity(AssetRequestDto assetRequestDto);
 
   void updateFromDto(AssetRequestDto assetRequestDto, @MappingTarget DigitalAsset digitalAsset);
+
+
+  default String getFirstProjectShortName(DigitalAsset digitalAsset) {
+    if (digitalAsset.getProjects() == null || digitalAsset.getProjects().isEmpty()) {
+      return null;
+    }
+    return digitalAsset.getProjects().get(0).getShortName();
+  }
 }

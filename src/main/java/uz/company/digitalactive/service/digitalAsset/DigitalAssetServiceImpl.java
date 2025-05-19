@@ -8,19 +8,27 @@ import uz.company.digitalactive.dto.AssetPatchDto;
 import uz.company.digitalactive.dto.request.asset.AssetRequestDto;
 import uz.company.digitalactive.dto.response.asset.AssetResponseDto;
 import uz.company.digitalactive.entity.DigitalAsset;
+import uz.company.digitalactive.entity.Project;
+import uz.company.digitalactive.entity.Type;
 import uz.company.digitalactive.mapper.DigitalAssetMapper;
 import uz.company.digitalactive.repository.DigitalAssetRepository;
+import uz.company.digitalactive.repository.ProjectRepository;
+import uz.company.digitalactive.repository.TypeRepository;
 
 @Service
 public class DigitalAssetServiceImpl implements DigitalAssetService {
 
   private final DigitalAssetRepository digitalAssetRepository;
   private final DigitalAssetMapper digitalAssetMapper;
+  private final TypeRepository typeRepository;
+  private final ProjectRepository projectRepository;
 
   public DigitalAssetServiceImpl(
-      DigitalAssetRepository digitalAssetRepository, DigitalAssetMapper digitalAssetMapper) {
+      DigitalAssetRepository digitalAssetRepository, DigitalAssetMapper digitalAssetMapper, TypeRepository typeRepository, ProjectRepository projectRepository) {
     this.digitalAssetRepository = digitalAssetRepository;
     this.digitalAssetMapper = digitalAssetMapper;
+    this.typeRepository = typeRepository;
+    this.projectRepository = projectRepository;
   }
 
   @Override
@@ -32,22 +40,44 @@ public class DigitalAssetServiceImpl implements DigitalAssetService {
 
   @Override
   public AssetResponseDto getById(UUID id) {
-    DigitalAsset digitalAsset =
-        digitalAssetRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+    DigitalAsset digitalAsset = digitalAssetRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
     return digitalAssetMapper.toDto(digitalAsset);
   }
 
   @Override
   public AssetResponseDto create(AssetRequestDto assetRequestDto) {
     DigitalAsset digitalAsset = digitalAssetMapper.toEntity(assetRequestDto);
+
+    Type type = typeRepository.findById(assetRequestDto.typeId())
+            .orElseThrow(()->new RuntimeException("Type not found"));
+    digitalAsset.setType(type);
+
+    List<UUID> projectIds = assetRequestDto.projectId();
+    List<Project> projects = projectRepository.findAllById(projectIds);
+    if(projects.size() != projectIds.size()){
+      throw new RuntimeException("Some project not found");
+    }
+    digitalAsset.setProjects(projects);
+
     return digitalAssetMapper.toDto(digitalAssetRepository.save(digitalAsset));
   }
 
   @Override
   public AssetResponseDto update(UUID id, AssetRequestDto assetRequestDto) {
-    DigitalAsset digitalAsset =
-        digitalAssetRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+    DigitalAsset digitalAsset = digitalAssetRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
     digitalAssetMapper.updateFromDto(assetRequestDto, digitalAsset);
+
+    Type type = typeRepository.findById(assetRequestDto.typeId())
+            .orElseThrow(()->new RuntimeException("Type not found"));
+    digitalAsset.setType(type);
+
+    List<UUID> projectIds = assetRequestDto.projectId();
+    List<Project> projects = projectRepository.findAllById(projectIds);
+    if(projects.size() != projectIds.size()){
+      throw new RuntimeException("Some project not found");
+    }
+    digitalAsset.setProjects(projects);
+
     return digitalAssetMapper.toDto(digitalAssetRepository.save(digitalAsset));
   }
 

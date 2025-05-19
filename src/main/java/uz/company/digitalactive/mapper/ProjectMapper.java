@@ -13,7 +13,6 @@ public interface ProjectMapper {
   ProjectResponseDto toDto(Project project);
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "projectManager", ignore = true)
   Project toEntity(ProjectRequestDto projectRequestDto);
 
   @Mapping(target = "id", ignore = true)

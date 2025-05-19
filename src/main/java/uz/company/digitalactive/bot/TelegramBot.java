@@ -45,18 +45,17 @@ public class TelegramBot extends TelegramLongPollingBot {
                 messageService.handleContact(chatId, contact, responseMessage);
             }
 
+            executeMessage(responseMessage);
 
-//            SendMessage message1 = SendMessage.builder()
-//                    .chatId(chatId)
-//                    .text(responseMessage)
-//                    .build();
 
-            try {
-                execute(responseMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+        }
+    }
 
+    public void executeMessage (SendMessage sendMessage) {
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 }

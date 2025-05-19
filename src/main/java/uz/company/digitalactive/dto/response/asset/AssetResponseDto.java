@@ -7,10 +7,11 @@ import java.util.UUID;
 
 public record AssetResponseDto(
     UUID id,
+    String AssetName,
     LocalDate issuedDate,
     LocalDate expirationDate,
     String typeName,
-    String ownerName,
+    String owner,
     String projectShortName,
     String issuer,
     AssetStatus status

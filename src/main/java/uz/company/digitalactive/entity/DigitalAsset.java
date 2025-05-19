@@ -16,7 +16,9 @@ public class DigitalAsset extends BaseDomain<UUID> {
 
   private String name;
 
-  @ManyToOne private Type type;
+  @ManyToOne
+  @JoinColumn(name = "type_id")
+  private Type type;
 
   private String description;
 
