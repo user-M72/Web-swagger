@@ -7,7 +7,6 @@ import org.mapstruct.ReportingPolicy;
 import uz.company.digitalactive.dto.request.asset.AssetRequestDto;
 import uz.company.digitalactive.dto.response.asset.AssetResponseDto;
 import uz.company.digitalactive.entity.DigitalAsset;
-import uz.company.digitalactive.entity.User;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DigitalAssetMapper {
@@ -23,7 +22,6 @@ public interface DigitalAssetMapper {
   DigitalAsset toEntity(AssetRequestDto assetRequestDto);
 
   void updateFromDto(AssetRequestDto assetRequestDto, @MappingTarget DigitalAsset digitalAsset);
-
 
   default String getFirstProjectShortName(DigitalAsset digitalAsset) {
     if (digitalAsset.getProjects() == null || digitalAsset.getProjects().isEmpty()) {

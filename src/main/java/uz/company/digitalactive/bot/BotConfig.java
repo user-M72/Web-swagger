@@ -7,20 +7,19 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-
 @Configuration
 public class BotConfig {
-//  @Value("${telegrambots.botToken}")
-//  private String botToken;
+  //  @Value("${telegrambots.botToken}")
+  //  private String botToken;
 
-//  @Value("${telegrambots.botUsername}")
-//  private String botUsername;
+  //  @Value("${telegrambots.botUsername}")
+  //  private String botUsername;
 
-//  @Bean
-//  public BotSession botSession(TelegramBot bot, TelegramBotsApi botsApi)
-//      throws TelegramApiException {
-//    return botsApi.registerBot(bot);
-//  }
+  //  @Bean
+  //  public BotSession botSession(TelegramBot bot, TelegramBotsApi botsApi)
+  //      throws TelegramApiException {
+  //    return botsApi.registerBot(bot);
+  //  }
 
   @Bean
   public TelegramBotsApi telegramBotsApi(TelegramBot telegramBot) throws TelegramApiException {
@@ -31,9 +30,8 @@ public class BotConfig {
 
   @Bean
   public TelegramBot telegramBot(
-          @Value("${telegrambots.botToken}") String botToken,
-          @Value("${telegrambots.botUsername}") String botUsername
-          ) {
+      @Value("${telegrambots.botToken}") String botToken,
+      @Value("${telegrambots.botUsername}") String botUsername) {
     return new TelegramBot(botUsername, botToken);
   }
 }

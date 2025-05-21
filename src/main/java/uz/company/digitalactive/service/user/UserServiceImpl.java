@@ -5,12 +5,17 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.company.digitalactive.dto.request.user.UserRequestDto;
 import uz.company.digitalactive.dto.response.user.UserResponseDto;
 import uz.company.digitalactive.entity.Role;
 import uz.company.digitalactive.entity.User;
+import uz.company.digitalactive.entity.enums.UserSort;
 import uz.company.digitalactive.exception.NotFoundException;
 import uz.company.digitalactive.mapper.UserMapper;
 import uz.company.digitalactive.repository.UserRepository;
@@ -64,7 +69,35 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User findByPhoneNumber(String phoneNumber) {
-    return userRepository.findByPhoneNumber(phoneNumber)
-            .orElseThrow(()->new NotFoundException("User not found by phone number: " + phoneNumber));
+    return userRepository
+        .findByPhoneNumber(phoneNumber)
+        .orElseThrow(() -> new NotFoundException("User not found by phone number: " + phoneNumber));
+  }
+
+  @Override
+  public Page<UserResponseDto> getPaginated(
+      int page, int size, UserSort sortBy, String direction, String search) {
+    List<String> allowedSortField = List.of("firstname", "lastname", "email", "phoneNumber");
+
+    String sortField = sortBy.getField();
+    if (!allowedSortField.contains(sortField)) {
+      throw new RuntimeException("Not found: " + sortBy);
+    }
+
+    Sort sort =
+        direction.equalsIgnoreCase("asc")
+            ? Sort.by(sortField).ascending()
+            : Sort.by(sortField).descending();
+
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    Page<User> userPage = userRepository.findUserPage(search, pageable);
+
+    return userPage.map(userMapper::toDto);
+  }
+
+  public Page<User> getUser(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    return userRepository.findAll(pageable);
   }
 }

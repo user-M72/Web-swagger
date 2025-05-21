@@ -1,8 +1,8 @@
 package uz.company.digitalactive.entity.enums;
 
 public enum AssetStatus {
-    ACTIVE,
-    INACTIVE,
-    EXPIRED,
-    PENDING
+  ACTIVE,
+  INACTIVE,
+  EXPIRED,
+  PENDING
 }

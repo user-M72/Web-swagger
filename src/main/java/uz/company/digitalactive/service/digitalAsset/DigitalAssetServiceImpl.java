@@ -3,7 +3,6 @@ package uz.company.digitalactive.service.digitalAsset;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +15,7 @@ import uz.company.digitalactive.entity.DigitalAsset;
 import uz.company.digitalactive.entity.Project;
 import uz.company.digitalactive.entity.Type;
 import uz.company.digitalactive.entity.enums.AssetSort;
+import uz.company.digitalactive.entity.enums.AssetStatus;
 import uz.company.digitalactive.mapper.DigitalAssetMapper;
 import uz.company.digitalactive.repository.DigitalAssetRepository;
 import uz.company.digitalactive.repository.ProjectRepository;
@@ -30,7 +30,10 @@ public class DigitalAssetServiceImpl implements DigitalAssetService {
   private final ProjectRepository projectRepository;
 
   public DigitalAssetServiceImpl(
-      DigitalAssetRepository digitalAssetRepository, DigitalAssetMapper digitalAssetMapper, TypeRepository typeRepository, ProjectRepository projectRepository) {
+      DigitalAssetRepository digitalAssetRepository,
+      DigitalAssetMapper digitalAssetMapper,
+      TypeRepository typeRepository,
+      ProjectRepository projectRepository) {
     this.digitalAssetRepository = digitalAssetRepository;
     this.digitalAssetMapper = digitalAssetMapper;
     this.typeRepository = typeRepository;
@@ -46,7 +49,8 @@ public class DigitalAssetServiceImpl implements DigitalAssetService {
 
   @Override
   public AssetResponseDto getById(UUID id) {
-    DigitalAsset digitalAsset = digitalAssetRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+    DigitalAsset digitalAsset =
+        digitalAssetRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
     return digitalAssetMapper.toDto(digitalAsset);
   }
 
@@ -54,13 +58,15 @@ public class DigitalAssetServiceImpl implements DigitalAssetService {
   public AssetResponseDto create(AssetRequestDto assetRequestDto) {
     DigitalAsset digitalAsset = digitalAssetMapper.toEntity(assetRequestDto);
 
-    Type type = typeRepository.findById(assetRequestDto.typeId())
-            .orElseThrow(()->new RuntimeException("Type not found"));
+    Type type =
+        typeRepository
+            .findById(assetRequestDto.typeId())
+            .orElseThrow(() -> new RuntimeException("Type not found"));
     digitalAsset.setType(type);
 
     List<UUID> projectIds = assetRequestDto.projectId();
     List<Project> projects = projectRepository.findAllById(projectIds);
-    if(projects.size() != projectIds.size()){
+    if (projects.size() != projectIds.size()) {
       throw new RuntimeException("Some project not found");
     }
     digitalAsset.setProjects(projects);
@@ -70,16 +76,19 @@ public class DigitalAssetServiceImpl implements DigitalAssetService {
 
   @Override
   public AssetResponseDto update(UUID id, AssetRequestDto assetRequestDto) {
-    DigitalAsset digitalAsset = digitalAssetRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+    DigitalAsset digitalAsset =
+        digitalAssetRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
     digitalAssetMapper.updateFromDto(assetRequestDto, digitalAsset);
 
-    Type type = typeRepository.findById(assetRequestDto.typeId())
-            .orElseThrow(()->new RuntimeException("Type not found"));
+    Type type =
+        typeRepository
+            .findById(assetRequestDto.typeId())
+            .orElseThrow(() -> new RuntimeException("Type not found"));
     digitalAsset.setType(type);
 
     List<UUID> projectIds = assetRequestDto.projectId();
     List<Project> projects = projectRepository.findAllById(projectIds);
-    if(projects.size() != projectIds.size()){
+    if (projects.size() != projectIds.size()) {
       throw new RuntimeException("Some project not found");
     }
     digitalAsset.setProjects(projects);
@@ -111,31 +120,32 @@ public class DigitalAssetServiceImpl implements DigitalAssetService {
     digitalAssetRepository.deleteById(id);
   }
 
+  @Override
+  public Page<AssetResponseDto> getAllPaginated(
+      int page, int size, AssetSort sortBy, String direction, String search, AssetStatus status) {
 
-    @Override
-    public Page<AssetResponseDto> getAllPaginated(int page, int size, AssetSort sortBy, String direction) {
+    List<String> allowedSortField =
+        List.of("name", "description", "owner", "issuer", "issuedDate", "expirationDate", "status");
 
-      List<String> allowedSortField = List.of("name","description","owner","issuer","issuedDate", "expirationDate", "status");
-
-      String sortField = sortBy.getField();
-        if(!allowedSortField.contains(sortField)){
-            throw new RuntimeException("Not found: " + sortBy);
-        }
-
-        Sort sort = direction.equalsIgnoreCase("asc")
-                ? Sort.by(sortField).ascending()
-                : Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of(page, size, sort);
-        Page<DigitalAsset> assetPage = digitalAssetRepository.findAll(pageable);
-
-        return assetPage.map(digitalAssetMapper::toDto);
+    String sortField = sortBy.getField();
+    if (!allowedSortField.contains(sortField)) {
+      throw new RuntimeException("Not found: " + sortBy);
     }
 
+    Sort sort =
+        direction.equalsIgnoreCase("asc")
+            ? Sort.by(sortField).ascending()
+            : Sort.by(sortField).descending();
 
-    public Page<DigitalAsset> getAsset(int page, int size){
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    Page<DigitalAsset> assetPage = digitalAssetRepository.findAssetsPage(search, status, pageable);
+
+    return assetPage.map(digitalAssetMapper::toDto);
+  }
+
+  public Page<DigitalAsset> getAsset(int page, int size) {
     Pageable pageable = PageRequest.of(page, size);
     return digitalAssetRepository.findAll(pageable);
   }
-
 }

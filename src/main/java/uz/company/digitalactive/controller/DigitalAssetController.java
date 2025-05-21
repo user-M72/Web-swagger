@@ -11,6 +11,7 @@ import uz.company.digitalactive.dto.AssetPatchDto;
 import uz.company.digitalactive.dto.request.asset.AssetRequestDto;
 import uz.company.digitalactive.dto.response.asset.AssetResponseDto;
 import uz.company.digitalactive.entity.enums.AssetSort;
+import uz.company.digitalactive.entity.enums.AssetStatus;
 import uz.company.digitalactive.service.digitalAsset.DigitalAssetService;
 
 @RestController
@@ -53,16 +54,17 @@ public class DigitalAssetController {
     digitalAssetService.delete(id);
     return ResponseEntity.noContent().build();
   }
-  @GetMapping("/paginated")
-  public ResponseEntity<Page<AssetResponseDto>> getAllPaginated(
-          @RequestParam(defaultValue = "0") int page,
-          @RequestParam(defaultValue = "5") int size,
-          @RequestParam() AssetSort sortBy,
-          @RequestParam(defaultValue = "asc") String direction
-//          @RequestParam String search
 
-  ){
-    Page<AssetResponseDto> assets = digitalAssetService.getAllPaginated(page, size, sortBy, direction);
-    return  ResponseEntity.ok(assets);
+  @GetMapping("/paginated")
+  public ResponseEntity<Page<AssetResponseDto>> getPaginated(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "5") int size,
+      @RequestParam() AssetSort sortBy,
+      @RequestParam(defaultValue = "asc") String direction,
+      @RequestParam(required = false) String search,
+      @RequestParam(required = false) AssetStatus status) {
+    Page<AssetResponseDto> assets =
+        digitalAssetService.getAllPaginated(page, size, sortBy, direction, search, status);
+    return ResponseEntity.ok(assets);
   }
 }

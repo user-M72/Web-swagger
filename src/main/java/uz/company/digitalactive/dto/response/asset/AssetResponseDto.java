@@ -1,9 +1,8 @@
 package uz.company.digitalactive.dto.response.asset;
 
-import uz.company.digitalactive.entity.enums.AssetStatus;
-
 import java.time.LocalDate;
 import java.util.UUID;
+import uz.company.digitalactive.entity.enums.AssetStatus;
 
 public record AssetResponseDto(
     UUID id,
@@ -14,5 +13,4 @@ public record AssetResponseDto(
     String owner,
     String projectShortName,
     String issuer,
-    AssetStatus status
-    ) {}
+    AssetStatus status) {}

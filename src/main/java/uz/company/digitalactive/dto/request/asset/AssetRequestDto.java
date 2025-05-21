@@ -1,10 +1,10 @@
 package uz.company.digitalactive.dto.request.asset;
 
-import uz.company.digitalactive.entity.enums.AssetStatus;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import uz.company.digitalactive.entity.enums.AssetStatus;
+
 // get view
 public record AssetRequestDto(
     List<UUID> projectId,
