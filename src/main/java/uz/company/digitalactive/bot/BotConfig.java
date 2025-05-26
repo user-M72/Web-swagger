@@ -9,17 +9,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
 public class BotConfig {
-  //  @Value("${telegrambots.botToken}")
-  //  private String botToken;
-
-  //  @Value("${telegrambots.botUsername}")
-  //  private String botUsername;
-
-  //  @Bean
-  //  public BotSession botSession(TelegramBot bot, TelegramBotsApi botsApi)
-  //      throws TelegramApiException {
-  //    return botsApi.registerBot(bot);
-  //  }
 
   @Bean
   public TelegramBotsApi telegramBotsApi(TelegramBot telegramBot) throws TelegramApiException {

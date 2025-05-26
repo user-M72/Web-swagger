@@ -1,6 +1,9 @@
 package uz.company.digitalactive.bot;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -17,16 +20,31 @@ import uz.company.digitalactive.service.user.UserService;
 public class MessageService {
 
   @Autowired private UserService userService;
-
   @Autowired private MessageRepository messageRepository;
+
+  private final Map<Long, String> userPhones = new HashMap<>();
 
   public void handleMessage(String text, SendMessage message) {
     if (text.equalsIgnoreCase("/start")) {
+      boolean exists = messageRepository.existsByChatId(message.getChatId());
+
+      if (exists) {
+        message.setText("You have already sent your phone number");
+      }else {
       message.setText("Hello! User, I'm your Telegram bot! Please, click share contact button!");
       message.setReplyMarkup(createKeyboardRequestPhone());
-    } else if (text.equalsIgnoreCase("/help")) {
-      message.setText("Bro I'm really sorry, but I can't help you!");
-    } else {
+      }
+    } else if (text.equalsIgnoreCase("/info")) {
+      message.setText("get a information message");
+    }
+    else if (text.equalsIgnoreCase("/help")) {
+      String helpText = "Available commands:\n" +
+              "/start - Start the bot\n" +
+              "/help - Show this help message\n" +
+              "/info - Some info command\n";
+      message.setText(helpText);
+    }
+    else {
       message.setText("Please, type /help");
     }
   }
