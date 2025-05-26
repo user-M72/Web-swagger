@@ -6,7 +6,7 @@ import uz.company.digitalactive.entity.enums.AssetStatus;
 
 public record AssetResponseDto(
     UUID id,
-    String AssetName,
+    String name,
     LocalDate issuedDate,
     LocalDate expirationDate,
     String typeName,

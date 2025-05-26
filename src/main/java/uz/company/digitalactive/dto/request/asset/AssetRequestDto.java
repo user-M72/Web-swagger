@@ -11,7 +11,7 @@ public record AssetRequestDto(
     UUID typeId,
     LocalDate issuedDate,
     LocalDate expirationDate,
-    String AssetName,
+    String name,
     String owner,
     String issuer,
     AssetStatus status) {}

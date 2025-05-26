@@ -11,7 +11,7 @@ import uz.company.digitalactive.entity.DigitalAsset;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DigitalAssetMapper {
 
-  @Mapping(target = "AssetName", source = "name")
+  @Mapping(target = "name", source = "name")
   @Mapping(target = "typeName", source = "type.name")
   @Mapping(target = "projectShortName", expression = "java(getFirstProjectShortName(digitalAsset))")
   @Mapping(target = "status", source = "status")
