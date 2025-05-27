@@ -25,7 +25,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     this.username = username;
 
     List<BotCommand> commandList = new ArrayList<>();
-    commandList.add(new BotCommand("/start", "get welcome message"));
+    commandList.add(new BotCommand("/start", "launch the bot"));
     commandList.add(new BotCommand("/info", "get information message"));
     commandList.add(new BotCommand("/help", "get help message"));
     try {

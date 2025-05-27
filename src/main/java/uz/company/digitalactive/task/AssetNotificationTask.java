@@ -29,7 +29,7 @@ public class AssetNotificationTask {
     private final DigitalAssetRepository assetRepository;
     private final MessageRepository messageRepository;
 
-    @Scheduled(cron = "0 21 15 * * *")
+    @Scheduled(cron = "0 0 10 * * *")
     @Transactional(readOnly = true)
     public void notifyDaysLeft() {
         LocalDateTime now = LocalDateTime.now();
@@ -61,3 +61,4 @@ public class AssetNotificationTask {
         telegramBot.executeMessage(responseMessage);
     }
 }
+

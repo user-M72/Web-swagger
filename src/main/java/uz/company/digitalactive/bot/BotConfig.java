@@ -1,5 +1,6 @@
 package uz.company.digitalactive.bot;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,8 @@ public class BotConfig {
   }
 
   @Bean
-  public TelegramBot telegramBot(
-      @Value("${telegrambots.botToken}") String botToken,
-      @Value("${telegrambots.botUsername}") String botUsername) {
-    return new TelegramBot(botUsername, botToken);
+  public TelegramBot telegramBot() {
+    Dotenv dotenv = Dotenv.load();
+    return new TelegramBot(dotenv.get("BOT_NAME"), dotenv.get("BOT_TOKEN"));
   }
 }

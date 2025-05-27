@@ -35,7 +35,7 @@ public class MessageService {
       message.setReplyMarkup(createKeyboardRequestPhone());
       }
     } else if (text.equalsIgnoreCase("/info")) {
-      message.setText("get a information message");
+      message.setText("information");
     }
     else if (text.equalsIgnoreCase("/help")) {
       String helpText = "Available commands:\n" +

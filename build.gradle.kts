@@ -52,6 +52,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.telegram/telegrambots-spring-boot-starter
     implementation("org.telegram:telegrambots-spring-boot-starter:6.9.7.1")
+
+    implementation ("io.github.cdimascio:java-dotenv:5.2.2")
+
 }
 
 dependencyManagement{
