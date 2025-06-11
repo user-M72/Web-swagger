@@ -2,6 +2,7 @@ package uz.company.digitalactive.service.user;
 
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import uz.company.digitalactive.dto.request.user.UserRequestDto;
 import uz.company.digitalactive.dto.response.user.UserResponseDto;
@@ -10,20 +11,20 @@ import uz.company.digitalactive.entity.User;
 import uz.company.digitalactive.entity.enums.UserSort;
 
 public interface UserService {
-  List<UserResponseDto> get();
+    List<UserResponseDto> get();
 
-  UserResponseDto getById(UUID id);
+    UserResponseDto getById(UUID id);
 
-  UserResponseDto create(UserRequestDto userRequestDto);
+    UserResponseDto create(UserRequestDto userRequestDto);
 
-  UserResponseDto update(UUID id, UserRequestDto userRequestDto);
+    UserResponseDto update(UUID id, UserRequestDto userRequestDto);
 
-  void delete(UUID id);
+    void delete(UUID id);
 
-  List<UserResponseDto> getAllByRole(Role admin);
+    List<UserResponseDto> getAllByRole(Role admin);
 
-  User findByPhoneNumber(String phoneNumber);
+    User findByPhoneNumber(String phoneNumber);
 
-  Page<UserResponseDto> getPaginated(
-      int page, int size, UserSort sortBy, String direction, String search);
+    Page<UserResponseDto> getPaginated(
+            int page, int size, UserSort sortBy, String direction, String search);
 }

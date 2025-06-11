@@ -13,8 +13,8 @@ import uz.company.digitalactive.entity.enums.ProjectSort;
 import uz.company.digitalactive.service.project.ProjectService;
 
 @RestController
-@RequestMapping("/api/project/v1")
-public class ProjectContoller {
+  @RequestMapping("/api/project/v1")
+public class ProjectController {
 
   @Autowired private ProjectService projectService;
 

@@ -9,14 +9,14 @@ import uz.company.digitalactive.entity.User;
 @Mapper(componentModel = "spring")
 public interface AuthMapper {
 
-  @Mapping(target = "id", ignore = true)
-  @Mapping(target = "enabled", ignore = true)
-  @Mapping(target = "roles", ignore = true)
-  @Mapping(target = "authorities", ignore = true)
-  @Mapping(target = "phoneNumber", ignore = true)
-  User toDto(RegisterRequestDto registerRequestDto);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "enabled", ignore = true)
+    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "authorities", ignore = true)
+    @Mapping(target = "phoneNumber", ignore = true)
+    User toDto(RegisterRequestDto registerRequestDto);
 
-  @Mapping(target = "token", ignore = true)
-  @Mapping(target = "role", ignore = true)
-  AuthResponseDto toEntity(User user);
+    @Mapping(target = "token", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    AuthResponseDto toEntity(User user);
 }

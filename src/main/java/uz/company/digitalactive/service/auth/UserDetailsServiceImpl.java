@@ -12,19 +12,19 @@ import uz.company.digitalactive.repository.UserRepository;
 @Service
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
-  private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-  @Autowired
-  public UserDetailsServiceImpl(UserRepository userRepository) {
-    this.userRepository = userRepository;
-  }
+    @Autowired
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-  @Override
-  public User loadUserByUsername(String email) throws UsernameNotFoundException {
+    @Override
+    public User loadUserByUsername(String email) throws UsernameNotFoundException {
 
-    return userRepository
-        .findByEmail(email)
-        .filter(User::getEnabled)
-        .orElseThrow(() -> new NotFoundException("user not found with name:" + email));
-  }
+        return userRepository
+                .findByEmail(email)
+                .filter(User::getEnabled)
+                .orElseThrow(() -> new NotFoundException("user not found with name:" + email));
+    }
 }

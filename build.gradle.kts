@@ -55,6 +55,11 @@ dependencies {
 
     implementation ("io.github.cdimascio:java-dotenv:5.2.2")
 
+    // https://mvnrepository.com/artifact/org.springframework.amqp/spring-rabbit
+    implementation("org.springframework.amqp:spring-rabbit:3.2.5")
+
+    implementation ("org.springframework.boot:spring-boot-starter-amqp")
+
 }
 
 dependencyManagement{

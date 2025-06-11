@@ -9,12 +9,12 @@ import uz.company.digitalactive.entity.Role;
 
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
-  RoleResponseDto toDto(Role role);
+    RoleResponseDto toDto(Role role);
 
-  @Mapping(target = "id", ignore = true)
-  @Mapping(target = "name", expression = "java(roleRequestDto.getName().toUpperCase())")
-  Role toEntity(RoleRequestDto roleRequestDto);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", expression = "java(roleRequestDto.getName().toUpperCase())")
+    Role toEntity(RoleRequestDto roleRequestDto);
 
-  @Mapping(target = "id", ignore = true)
-  void updateFromDto(RoleRequestDto roleRequestDto, @MappingTarget Role role);
+    @Mapping(target = "id", ignore = true)
+    void updateFromDto(RoleRequestDto roleRequestDto, @MappingTarget Role role);
 }

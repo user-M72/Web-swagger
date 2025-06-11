@@ -10,8 +10,9 @@ import uz.company.digitalactive.entity.User;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-  List<Message> findByChatId(String chatId);
-  boolean existsByChatId(@NonNull String chatId);
+    List<Message> findByChatId(String chatId);
 
-  Optional<Message> findByUser(User user);
+    boolean existsByChatId(@NonNull String chatId);
+
+    Optional<Message> findByUser(User user);
 }

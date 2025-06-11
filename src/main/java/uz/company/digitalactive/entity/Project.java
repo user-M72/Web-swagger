@@ -3,7 +3,9 @@ package uz.company.digitalactive.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
 import uz.company.digitalactive.entity.base.BaseDomain;
@@ -13,11 +15,11 @@ import uz.company.digitalactive.entity.base.BaseDomain;
 @Setter
 public class Project extends BaseDomain<UUID> {
 
-  private String shortName;
-  private String name;
-  private String description;
+    private String shortName;
+    private String name;
+    private String description;
 
-  @ManyToOne
-  @JoinColumn(name = "project_manager_id")
-  private User projectManager;
+    @ManyToOne
+    @JoinColumn(name = "project_manager_id")
+    private User projectManager;
 }
