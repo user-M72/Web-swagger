@@ -59,6 +59,14 @@ dependencies {
     implementation("org.springframework.amqp:spring-rabbit:3.2.5")
 
     implementation ("org.springframework.boot:spring-boot-starter-amqp")
+    implementation ("org.springframework.boot:spring-boot-starter-webflux")
+
+    //  PDF
+    implementation ("com.itextpdf:itext7-core:7.2.5")
+
+//  Excel
+    implementation ("org.apache.poi:poi:5.2.3")
+    implementation ("org.apache.poi:poi-ooxml:5.2.3")
 
 }
 

@@ -58,6 +58,7 @@ public class SecurityConfig {
     "/api/types/v1/**",
     "/api/project/v1/**",
     "/api/asset/v1/**",
+    "/Queue/**"
   };
   private static final String[] MANAGER_URLS = {"/api/project/v1/**"};
   private static final String[] USER_URLS = {"/api/types/v1/**", "/api/asset/v1/**"};

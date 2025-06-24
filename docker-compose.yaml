@@ -1,56 +1,47 @@
-version: '3.8'
-
 services:
 
+  postgres:
+    image: postgres:15.8
+    container_name: postgres_v1
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: company
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 01032002ama
+    volumes:
+      - /data/postgres:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5677:5672"
+      - "15677:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+
   digital-active:
+    build: .
+    image: digital-active:${docker_VERSION}
     container_name: digital-active
-    image: digital-active:latest
-    restart: on-failure
-    build:
-      context: . # Context will be the project root
-      dockerfile: Dockerfile
-      args:
-        version: ${VERSION}
-    #    environment:
-    #      POSTGRES_SERVER: postgres:5432
-    #      POSTGRES_USER: $POSTGRES_USERNAME
-    #      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-    #      MINIO_SERVER: http://minio:9000
-    #      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
-    #      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
-    #      TZ: Asia/Tashkent
-    volumes: # NOTE: choose using local build or pre-built image (remove the volumes if pre-built)
-      - ./build/libs/digital-active-${VERSION}.jar:/digital-active.jar
-      - /opt/digital-active/log:/opt/digital-active/log
     ports:
       - "8080:8080"
-#    depends_on:
-#      - minio
-#      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/company
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 01032002ama
 
-#  minio:
-#    image: quay.io/minio/minio:latest
-#    hostname: minio
-#    ports:
-#      - "9000:9000"
-#      - "9001:9001"
-#    environment:
-#      MINIO_ACCESS_KEY: $MINIO_ACCESS_KEY
-#      MINIO_SECRET_KEY: $MINIO_SECRET_KEY
-#    volumes:
-#      - ${HOME}/minio/data:/data
-#    command: server /data --console-address ":9001"
-#
-#  postgres:
-#    container_name: digital-active-postgres
-#    image: postgres:15.8
-#    ports:
-#      - 5432:5432
-#    volumes:
-#      - /data/postgres:/var/lib/postgresql/data
-#    environment:
-#      POSTGRES_DB: digital-active
-#      POSTGRES_USER: $POSTGRES_USERNAME
-#      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-#      TZ: Asia/Tashkent
-#      PGTZ: Asia/Tashkent
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+
+      BOT_TOKEN: ${BOT_TOKEN}
+      BOT_NAME: ${BOT_NAME}
+
+    depends_on:
+      - postgres
+      - rabbitmq

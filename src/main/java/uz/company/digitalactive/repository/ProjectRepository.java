@@ -1,7 +1,6 @@
 package uz.company.digitalactive.repository;
 
 import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import uz.company.digitalactive.entity.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, UUID> {
-    @Query(
-            """
+  @Query(
+      """
                     SELECT p
                     FROM Project p
                     WHERE
@@ -21,5 +20,5 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
                             OR LOWER(p.description) LIKE LOWER(cast(CONCAT('%',:search,'%') as string))
                         )
                     """)
-    Page<Project> findProjectPage(String search, Pageable pageable);
+  Page<Project> findProjectPage(String search, Pageable pageable);
 }

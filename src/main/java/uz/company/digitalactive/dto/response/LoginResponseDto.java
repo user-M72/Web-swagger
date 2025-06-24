@@ -1,4 +1,6 @@
 package uz.company.digitalactive.dto.response;
 
-public class LoginResponseDto {
-}
+import java.util.List;
+import java.util.UUID;
+
+public record LoginResponseDto(UUID userId, String token, List<String> authorities, String email) {}

@@ -6,7 +6,7 @@ import uz.company.digitalactive.dto.request.user.PasswordRequestDto;
 import uz.company.digitalactive.entity.User;
 
 public interface AuthService {
-    AuthResponseDto login(LoginDto loginDto);
+  AuthResponseDto login(LoginDto loginDto);
 
-    Boolean changePassword(User currentUser, PasswordRequestDto passwordDto);
+  Boolean changePassword(User currentUser, PasswordRequestDto passwordDto);
 }

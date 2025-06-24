@@ -1,5 +1,11 @@
 package uz.company.digitalactive.controller;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +19,7 @@ import uz.company.digitalactive.entity.enums.ProjectSort;
 import uz.company.digitalactive.service.project.ProjectService;
 
 @RestController
-  @RequestMapping("/api/project/v1")
+@RequestMapping("/api/project/v1")
 public class ProjectController {
 
   @Autowired private ProjectService projectService;
@@ -57,5 +63,26 @@ public class ProjectController {
     Page<ProjectResponseDto> projects =
         projectService.getPaginated(page, size, sortBy, direction, search);
     return ResponseEntity.ok(projects);
+  }
+
+  @GetMapping("/download/pdf")
+  public void exportToPdf(HttpServletResponse response) throws IOException {
+    response.setContentType("application/pdf");
+    response.setHeader("Content-Disposition", "attachment; filename=projects.pdf");
+    ;
+
+    List<ProjectResponseDto> projects = projectService.get();
+
+    PdfWriter writer = new PdfWriter(response.getOutputStream());
+    PdfDocument pdf = new PdfDocument(writer);
+    Document document = new Document(pdf);
+
+    for (ProjectResponseDto project : projects) {
+      document.add(new Paragraph("Name: " + project.name()));
+      document.add(new Paragraph("ShortName: " + project.shortName()));
+      document.add(new Paragraph("Description: " + project.description()));
+      document.add(new Paragraph("------------------"));
+    }
+    document.close();
   }
 }

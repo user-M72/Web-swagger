@@ -8,6 +8,7 @@ spring:
     username: guest
     password: guest
 
+
   datasource:
     url: jdbc:postgresql://localhost:5432/company
     username: postgres
@@ -31,5 +32,18 @@ application:
     private-key: ${PRIVATE_KEY_PATH:classpath:keys/private_key.pem}
     public-key: ${PUBLIC_KEY_PATH:classpath:keys/public_key.pem}
 
+app:
+  auth:
+    login-url: /api/auth/v1/login
+    user-url: /api/users/v1
 
+queue: Queue
+exchange: Direct
+key: user.create
 
+local:
+  host: http://localhost:8080
+
+telegram:
+  BOT_TOKEN: ${BOT_TOKEN:token}
+  BOT_NAME: ${BOT_NAME:name}

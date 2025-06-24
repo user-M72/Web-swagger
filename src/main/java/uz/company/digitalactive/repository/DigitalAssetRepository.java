@@ -3,7 +3,6 @@ package uz.company.digitalactive.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,10 +11,10 @@ import uz.company.digitalactive.entity.DigitalAsset;
 import uz.company.digitalactive.entity.enums.AssetStatus;
 
 public interface DigitalAssetRepository extends JpaRepository<DigitalAsset, UUID> {
-    List<DigitalAsset> findByExpirationDateBetween(LocalDateTime from, LocalDateTime to);
+  List<DigitalAsset> findByExpirationDateBetween(LocalDateTime from, LocalDateTime to);
 
-    @Query(
-            """
+  @Query(
+      """
                     SELECT d
                     FROM DigitalAsset d
                     WHERE
@@ -30,5 +29,5 @@ public interface DigitalAssetRepository extends JpaRepository<DigitalAsset, UUID
                             :status IS NULL OR d.status = :status
                         )
                     """)
-    Page<DigitalAsset> findAssetsPage(String search, AssetStatus status, Pageable pageable);
+  Page<DigitalAsset> findAssetsPage(String search, AssetStatus status, Pageable pageable);
 }

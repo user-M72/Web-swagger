@@ -12,34 +12,31 @@ import uz.company.digitalactive.repository.UserRepository;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private AuthMapper authMapper;
-    @Autowired
-    private RoleRepository roleRepository;
+  @Autowired private UserRepository userRepository;
+  @Autowired private AuthMapper authMapper;
+  @Autowired private RoleRepository roleRepository;
 
-    @Override
-    public AuthResponseDto login(LoginDto authRequestDto) {
-        User user =
-                userRepository
-                        .findByEmail(authRequestDto.email())
-                        .orElseThrow(() -> new RuntimeException("email not found"));
+  @Override
+  public AuthResponseDto login(LoginDto authRequestDto) {
+    User user =
+        userRepository
+            .findByEmail(authRequestDto.email())
+            .orElseThrow(() -> new RuntimeException("email not found"));
 
-        if (!authRequestDto.password().equals(user.getPassword())) {
-            throw new RuntimeException("INVALID email or password");
-        }
-        ;
-        return authMapper.toEntity(user);
+    if (!authRequestDto.password().equals(user.getPassword())) {
+      throw new RuntimeException("INVALID email or password");
     }
+    ;
+    return authMapper.toEntity(user);
+  }
 
-    @Override
-    public Boolean changePassword(User currentUser, PasswordRequestDto passwordDto) {
-        if (!passwordDto.oldPassword().equals(currentUser.getPassword())) {
-            throw new RuntimeException("Incorrect old password");
-        }
-        currentUser.setPassword(passwordDto.newPassword());
-        userRepository.save(currentUser);
-        return true;
+  @Override
+  public Boolean changePassword(User currentUser, PasswordRequestDto passwordDto) {
+    if (!passwordDto.oldPassword().equals(currentUser.getPassword())) {
+      throw new RuntimeException("Incorrect old password");
     }
+    currentUser.setPassword(passwordDto.newPassword());
+    userRepository.save(currentUser);
+    return true;
+  }
 }

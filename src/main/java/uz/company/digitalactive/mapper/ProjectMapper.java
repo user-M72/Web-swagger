@@ -10,11 +10,11 @@ import uz.company.digitalactive.entity.Project;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ProjectMapper {
-    ProjectResponseDto toDto(Project project);
+  ProjectResponseDto toDto(Project project);
 
-    @Mapping(target = "id", ignore = true)
-    Project toEntity(ProjectRequestDto projectRequestDto);
+  @Mapping(target = "id", ignore = true)
+  Project toEntity(ProjectRequestDto projectRequestDto);
 
-    @Mapping(target = "id", ignore = true)
-    void updateFromDto(ProjectRequestDto projectRequestDto, @MappingTarget Project project);
+  @Mapping(target = "id", ignore = true)
+  void updateFromDto(ProjectRequestDto projectRequestDto, @MappingTarget Project project);
 }
