@@ -87,7 +87,11 @@ public class SecurityConfig {
                     .requestMatchers(USER_URLS)
                     .hasAnyAuthority("USER")
                     .requestMatchers(PUBLIC_URLS)
-                    .permitAll())
+                    .permitAll()
+                    .requestMatchers("/actuator/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
         .exceptionHandling(
             (ex) ->
                 ex.authenticationEntryPoint(authenticationExceptionEntryPoint)

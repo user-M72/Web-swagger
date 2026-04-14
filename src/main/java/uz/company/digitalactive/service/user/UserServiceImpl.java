@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<UserResponseDto> get() {
+  public List<UserResponseDto>   get() {
     return userRepository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
   }
 

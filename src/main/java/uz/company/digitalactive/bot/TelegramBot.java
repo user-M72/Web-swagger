@@ -18,15 +18,15 @@ public class TelegramBot extends TelegramLongPollingBot {
     super(token);
     this.username = username;
 
-    //    List<BotCommand> commandList = new ArrayList<>();
-    //    commandList.add(new BotCommand("/start", "launch the bot"));
-    //    commandList.add(new BotCommand("/info", "get information message"));
-    //    commandList.add(new BotCommand("/help", "get help message"));
-    //    try {
-    //      this.execute(new SetMyCommands(commandList, new BotCommandScopeDefault(), null));
-    //    } catch (TelegramApiException e) {
-    //      throw new RuntimeException(e);
-    //    }
+    //        List<BotCommand> commandList = new ArrayList<>();
+    //        commandList.add(new BotCommand("/start", "launch the bot"));
+    //        commandList.add(new BotCommand("/info", "get information message"));
+    //        commandList.add(new BotCommand("/help", "get help message"));
+    //        try {
+    //          this.execute(new SetMyCommands(commandList, new BotCommandScopeDefault(), null));
+    //        } catch (TelegramApiException e) {
+    //          throw new RuntimeException(e);
+    //        }
   }
 
   @Override
@@ -34,7 +34,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     return username;
   }
 
-  // все фуну-ии для обработки message
+  // все ф-ии для обработки message
 
   @Override
   public void onUpdateReceived(Update update) {

@@ -47,3 +47,35 @@ local:
 telegram:
   BOT_TOKEN: ${BOT_TOKEN:token}
   BOT_NAME: ${BOT_NAME:name}
+
+management:
+  server:
+    port: 8081
+  health:
+    ldap:
+      enabled: off
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus, metrics
+    enabled-by-default: false
+  endpoint:
+    web:
+      exposure:
+        include: "*"
+    info:
+      enabled: true
+    env:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: "readinessState"
+        liveness:
+          include: "livenessState"
+      enabled: true
+      show-details: always
+    prometheus:
+      enabled: true

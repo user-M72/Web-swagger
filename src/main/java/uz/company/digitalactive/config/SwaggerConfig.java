@@ -11,23 +11,30 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(servers = {@Server(description = "Local ENV", url = "http://localhost:8080")})
+@OpenAPIDefinition(
+        servers = {
+                @Server(description = "Local ENV", url = "http://localhost:8080")
+        }
+)
 public class SwaggerConfig {
 
   @Bean
   public OpenAPI customOpenAPI() {
     return new OpenAPI()
-        .info(new Info().title("Digital Assets Service"))
-        .addSecurityItem(new SecurityRequirement().addList("DigitalAssetSecurityScheme"))
-        .components(
-            new Components()
-                .addSecuritySchemes(
-                    "DigitalAssetSecurityScheme",
-                    new SecurityScheme()
-                        .bearerFormat("JWT")
-                        .name("bearerAuth")
-                        .type(SecurityScheme.Type.HTTP)
-                        .scheme("bearer")
-                        .in(SecurityScheme.In.HEADER)));
+            .info(new Info()
+                    .title("Digital Assets Service")
+                    .version("1.0.0")
+                    .description("API for managing digital assets"))
+            .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+            .components(
+                    new Components()
+                            .addSecuritySchemes(
+                                    "bearerAuth",
+                                    new SecurityScheme()
+                                            .type(SecurityScheme.Type.HTTP)
+                                            .scheme("bearer")
+                                            .bearerFormat("JWT")
+                                            .in(SecurityScheme.In.HEADER)));
   }
 }
+

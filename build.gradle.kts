@@ -34,6 +34,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-oauth2-jose:6.4.4")
     implementation("com.nimbusds:nimbus-jose-jwt:9.40")
 
+//    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${rootProject.extra.get("openApiVersion")}")
@@ -67,6 +68,9 @@ dependencies {
 //  Excel
     implementation ("org.apache.poi:poi:5.2.3")
     implementation ("org.apache.poi:poi-ooxml:5.2.3")
+    implementation ("org.springframework.boot:spring-boot-starter-actuator")
+
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 
 }
 
